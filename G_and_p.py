@@ -6,15 +6,16 @@ import math
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--theta', type=int, required=False)
-parser.add_argument('--v', type = int, required = False)
+parser.add_argument('--theta', type=float, required=True)
+parser.add_argument('--v', type = int, required = True)
 
 args = parser.parse_args()
 
 ## GRAVITY AND MOMENTUM
 
 scene = canvas()
-
+scene.width = 1000
+scene.height = 600
 
 x = box(pos= vector(0,20,0), length = 10, width = 1/2, height = 1/2, color = color.red)
 y = box(pos= vector(0,20,0), length = 1/2, width = 10, height = 1/2, color = color.blue)
@@ -25,7 +26,7 @@ floor = box(pos = vector(0,0,0), length = 100, width = 10, height = 1)
 v0 = args.v
 p0 = vector(0,0,0)
 
-direction= vector(sin(args.theta), cos(args.theta), +0)
+direction= vector(cos(args.theta), sin(args.theta), +0)
 
 ball = sphere(pos = vector(0,5,0), velocity = vector(0,0,0), color = color.green, radius = 1.0, make_trail = True)
 ball.mass = 10
