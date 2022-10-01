@@ -18,7 +18,7 @@ direction= vector(+0.11, +0.31, +0)
 ball = sphere (pos = vector(-50,5,0), velocity = vector(0,0,0), color = color.green, radius = 1.0, make_trail = True)
 ball.mass = 10
 ball.p = ball.mass*v0*vector(direction)
-g = vector (0,-9.81, 0)
+g = vector(0,-9.81, 0)
 damp = 0.998
 
 t = 0
@@ -34,9 +34,7 @@ while t<100:
     
     if (ball.pos.y - ball.radius <= floor.pos.y + floor.height/2 and ball.pos.x <floor.length/2):
         ball.p.y = -ball.p.y
+        #check case: negligable boost to avoid object boundaries crossing
         ball.pos.y+=0.001
-    #dist = ball.pos.y
-    #if dist <= 2*floor.height/3:
-    #    ball.pos.y+=ball.radius/2
     
     t= t+dt
