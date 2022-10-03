@@ -3,19 +3,19 @@ from vpython import *
 N = 2 # N by N by N array of atoms
 # Surrounding the N**3 atoms is another layer of invisible fixed-position atoms
 # that provide stability to the lattice.
-k = 1
-m = 100
+k = 10
+m = 1
 spacing = 1
 atom_radius = 0.25*spacing
 L0 = spacing-1.8*atom_radius
 V0 = pi*(0.5*atom_radius)**2*L0 # initial volume of spring
 scene.center = 0.5*(N-1)*vector(1,1,1)
-dt = 0.0004*(2*pi*sqrt(m/k))
+dt = 0.004*(2*pi*sqrt(m/k))
 axes = [vector(1,0,0), vector(0,1,0), vector(0,0,1)]
 
 
 floor = box(pos = vector(0,0,0), length = 10, width = 10, height = 1)
-u = 10
+u = 5
 
 
 class crystal:
@@ -83,13 +83,14 @@ class crystal:
         spring.color = color.orange
         self.springs.append(spring)
 
-c = crystal(N, atom_radius, spacing, 0.1*spacing*sqrt(k/m))
+c = crystal(N, atom_radius, spacing, 0.00001*spacing*sqrt(k/m))
 
 for atom in c.atoms:
     if atom.visible:
         atom.pos.y += u
 
 g = vector(0,-9.81,0)
+
 while True:
     rate(60)
     for atom in c.atoms:
@@ -102,13 +103,6 @@ while True:
                 atom.momentum.y = -atom.momentum.y
                 atom.pos.y += 0.01
 
-    # Fnet = ball.mass * g
-    
-    # ball.p = ball.p + Fnet *dt
-    # ball.velocity = ball.p/ball.mass
-    # ball.pos = ball.pos*damp+ball.velocity*dt
-
-            #
     for spring in c.springs:
         spring.axis = spring.end.pos - spring.start.pos
         L = mag(spring.axis)
