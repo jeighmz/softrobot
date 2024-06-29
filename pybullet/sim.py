@@ -23,32 +23,43 @@ numJoints = p.getNumJoints(r2d2Id)
 targetVelocity = 0  # Target velocity
 maxForce = 10  # Maximum force that can be applied to the joint
 turn = 0  # Turn direction
+increment = 0.5  # Increment for smoother movement
 
 # Simulate indefinitely
 while True:
     # Get key events
     keys = p.getKeyboardEvents()
     
-    # Check if 'up' arrow key is pressed
-    if p.B3G_UP_ARROW in keys and keys[p.B3G_UP_ARROW] & p.KEY_WAS_TRIGGERED:
-        targetVelocity -= 1  # Increase velocity
+    # Check if 'up' arrow key is pressed or held
+    if p.B3G_UP_ARROW in keys and (keys[p.B3G_UP_ARROW] & p.KEY_IS_DOWN):
+        targetVelocity -= increment  # Increase velocity
     
-    # Check if 'down' arrow key is pressed
-    if p.B3G_DOWN_ARROW in keys and keys[p.B3G_DOWN_ARROW] & p.KEY_WAS_TRIGGERED:
-        targetVelocity += 1  # Decrease velocity
+    # Check if 'down' arrow key is pressed or held
+    if p.B3G_DOWN_ARROW in keys and (keys[p.B3G_DOWN_ARROW] & p.KEY_IS_DOWN):
+        targetVelocity += increment  # Decrease velocity
     
-    # Check if 'right' arrow key is pressed
-    if p.B3G_RIGHT_ARROW in keys and keys[p.B3G_RIGHT_ARROW] & p.KEY_WAS_TRIGGERED:
-        turn -= 1  # Turn right
+    # Check if 'right' arrow key is pressed or held
+    if p.B3G_RIGHT_ARROW in keys and (keys[p.B3G_RIGHT_ARROW] & p.KEY_IS_DOWN):
+        turn -= increment  # Turn right
     
-    # Check if 'left' arrow key is pressed
-    if p.B3G_LEFT_ARROW in keys and keys[p.B3G_LEFT_ARROW] & p.KEY_WAS_TRIGGERED:
-        turn += 1  # Turn left
+    # Check if 'left' arrow key is pressed or held
+    if p.B3G_LEFT_ARROW in keys and (keys[p.B3G_LEFT_ARROW] & p.KEY_IS_DOWN):
+        turn += increment  # Turn left
     
+    # Reset velocity and turn when keys are released
+    if p.B3G_UP_ARROW in keys and (keys[p.B3G_UP_ARROW] & p.KEY_WAS_RELEASED):
+        targetVelocity = 0
+    if p.B3G_DOWN_ARROW in keys and (keys[p.B3G_DOWN_ARROW] & p.KEY_WAS_RELEASED):
+        targetVelocity = 0
+    if p.B3G_RIGHT_ARROW in keys and (keys[p.B3G_RIGHT_ARROW] & p.KEY_WAS_RELEASED):
+        turn = 0
+    if p.B3G_LEFT_ARROW in keys and (keys[p.B3G_LEFT_ARROW] & p.KEY_WAS_RELEASED):
+        turn = 0
+
     # Ensure targetVelocity and turn are within limits
     targetVelocity = max(min(targetVelocity, 10), -10)
     turn = max(min(turn, 10), -10)
-    
+
     # Iterate over all joints
     for joint in range(numJoints):
         # Get joint info
