@@ -1,6 +1,8 @@
 import pybullet as p
 import time
 import pybullet_data
+import pandas as pd
+import numpy as np
 
 # Connect to the physics server (GUI mode)
 p.connect(p.GUI)
@@ -16,6 +18,15 @@ p.setGravity(0, 0, -9.8)
 # Load the plane and R2D2
 planeId = p.loadURDF("plane.urdf")
 r2d2Id = p.loadURDF("r2d2.urdf", [0, 0, 1])
+
+
+# Export all joints info to csv
+df = pd.DataFrame(columns=['jointIndex', 'jointName', 'jointType', 'qIndex', 'uIndex', 'flags', 'jointDamping', 'jointFriction', 'jointLowerLimit', 'jointUpperLimit', 'jointMaxForce', 'jointMaxVelocity', 'linkName', 'jointAxis', 'parentFramePos', 'parentFrameOrn', 'parentIndex'])
+
+for joint in range(p.getNumJoints(r2d2Id)):
+    jointInfo = p.getJointInfo(r2d2Id, joint)
+    df = df._append({'jointIndex': jointInfo[0], 'jointName': jointInfo[1].decode('utf-8'), 'jointType': jointInfo[2], 'qIndex': jointInfo[3], 'uIndex': jointInfo[4], 'flags': jointInfo[5], 'jointDamping': jointInfo[6], 'jointFriction': jointInfo[7], 'jointLowerLimit': jointInfo[8], 'jointUpperLimit': jointInfo[9], 'jointMaxForce': jointInfo[10], 'jointMaxVelocity': jointInfo[11], 'linkName': jointInfo[12].decode('utf-8'), 'jointAxis': jointInfo[13], 'parentFramePos': jointInfo[14], 'parentFrameOrn': jointInfo[15], 'parentIndex': jointInfo[16]}, ignore_index=True)
+df.to_csv('pybullet/r2d2/r2d2_joints.csv', index=True)
 
 # Get the number of joints of R2D2
 numJoints = p.getNumJoints(r2d2Id)
@@ -46,6 +57,13 @@ while True:
     if p.B3G_LEFT_ARROW in keys and (keys[p.B3G_LEFT_ARROW] & p.KEY_IS_DOWN):
         turn += increment  # Turn left
     
+    # Check if 'space' key is pressed and open the gripper
+    if p.B3G_SPACE in keys and (keys[p.B3G_SPACE] & p.KEY_WAS_TRIGGERED):
+        for joint in range(numJoints):
+            jointInfo = p.getJointInfo(r2d2Id, joint)
+            if "_gripper" in jointInfo[1].decode('utf-8'):
+                p.setJointMotorControl2(r2d2Id, joint, p.POSITION_CONTROL, targetPosition=0.5, force=maxForce)
+
     # Reset velocity and turn when keys are released
     if p.B3G_UP_ARROW in keys and (keys[p.B3G_UP_ARROW] & p.KEY_WAS_RELEASED):
         targetVelocity = 0
@@ -55,7 +73,13 @@ while True:
         turn = 0
     if p.B3G_LEFT_ARROW in keys and (keys[p.B3G_LEFT_ARROW] & p.KEY_WAS_RELEASED):
         turn = 0
-
+        
+    # Check if 'space' key is pressed and close the gripper
+    if p.B3G_SPACE in keys and (keys[p.B3G_SPACE] & p.KEY_WAS_RELEASED):
+        for joint in range(numJoints):
+            jointInfo = p.getJointInfo(r2d2Id, joint)
+            if "_gripper" in jointInfo[1].decode('utf-8'):
+                p.setJointMotorControl2(r2d2Id, joint, p.POSITION_CONTROL, targetPosition=0, force=maxForce)
     # Ensure targetVelocity and turn are within limits
     targetVelocity = max(min(targetVelocity, 10), -10)
     turn = max(min(turn, 10), -10)

@@ -14,11 +14,11 @@ This is a simple simulation of R2D2 using PyBullet.
 
 ## Running the Simulation
 
-1. Run `python sim.py` in your terminal.
+1. Run `python3 sim-control.py` in your terminal.
 
 ## How it Works
 
-The script `sim.py` connects to a PyBullet physics server in GUI mode, sets up a real-time simulation with gravity, and loads a plane and an R2D2 URDF.
+The script `sim-control.py` connects to a PyBullet physics server in GUI mode, sets up a real-time simulation with gravity, and loads a plane and an R2D2 URDF.
 
 The simulation runs indefinitely, listening for key events. The 'up' and 'down' arrow keys control the target velocity of R2D2, while the 'left' and 'right' arrow keys control the turn direction.
 
