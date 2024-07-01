@@ -9,8 +9,9 @@ This is a simple simulation of R2D2 using PyBullet.
 
 ## Installation
 
-1. Install Python.
-2. Install PyBullet by running `pip install pybullet` in your terminal.
+1. Create a virtual python environment `python3 -m venv pybullet-venv`
+2. Activate the environment with `source pybullet-venv/bin/activate`
+3. Install PyBullet and other dependencies by running `pip3 install -r requirements.txt` in your terminal
 
 ## Running the Simulation
 
