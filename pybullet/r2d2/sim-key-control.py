@@ -21,12 +21,12 @@ r2d2Id = p.loadURDF("r2d2.urdf", [0, 0, 1])
 
 
 # Export all joints info to csv
-df = pd.DataFrame(columns=['jointIndex', 'jointName', 'jointType', 'qIndex', 'uIndex', 'flags', 'jointDamping', 'jointFriction', 'jointLowerLimit', 'jointUpperLimit', 'jointMaxForce', 'jointMaxVelocity', 'linkName', 'jointAxis', 'parentFramePos', 'parentFrameOrn', 'parentIndex'])
 
-for joint in range(p.getNumJoints(r2d2Id)):
-    jointInfo = p.getJointInfo(r2d2Id, joint)
-    df = df._append({'jointIndex': jointInfo[0], 'jointName': jointInfo[1].decode('utf-8'), 'jointType': jointInfo[2], 'qIndex': jointInfo[3], 'uIndex': jointInfo[4], 'flags': jointInfo[5], 'jointDamping': jointInfo[6], 'jointFriction': jointInfo[7], 'jointLowerLimit': jointInfo[8], 'jointUpperLimit': jointInfo[9], 'jointMaxForce': jointInfo[10], 'jointMaxVelocity': jointInfo[11], 'linkName': jointInfo[12].decode('utf-8'), 'jointAxis': jointInfo[13], 'parentFramePos': jointInfo[14], 'parentFrameOrn': jointInfo[15], 'parentIndex': jointInfo[16]}, ignore_index=True)
-df.to_csv('pybullet/r2d2/r2d2_joints.csv', index=True)
+# df = pd.DataFrame(columns=['jointIndex', 'jointName', 'jointType', 'qIndex', 'uIndex', 'flags', 'jointDamping', 'jointFriction', 'jointLowerLimit', 'jointUpperLimit', 'jointMaxForce', 'jointMaxVelocity', 'linkName', 'jointAxis', 'parentFramePos', 'parentFrameOrn', 'parentIndex'])
+# for joint in range(p.getNumJoints(r2d2Id)):
+#     jointInfo = p.getJointInfo(r2d2Id, joint)
+#     df = df._append({'jointIndex': jointInfo[0], 'jointName': jointInfo[1].decode('utf-8'), 'jointType': jointInfo[2], 'qIndex': jointInfo[3], 'uIndex': jointInfo[4], 'flags': jointInfo[5], 'jointDamping': jointInfo[6], 'jointFriction': jointInfo[7], 'jointLowerLimit': jointInfo[8], 'jointUpperLimit': jointInfo[9], 'jointMaxForce': jointInfo[10], 'jointMaxVelocity': jointInfo[11], 'linkName': jointInfo[12].decode('utf-8'), 'jointAxis': jointInfo[13], 'parentFramePos': jointInfo[14], 'parentFrameOrn': jointInfo[15], 'parentIndex': jointInfo[16]}, ignore_index=True)
+# df.to_csv('pybullet/r2d2/r2d2_joints.csv', index=True)
 
 # Get the number of joints of R2D2
 numJoints = p.getNumJoints(r2d2Id)
