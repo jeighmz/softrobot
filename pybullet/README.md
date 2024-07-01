@@ -14,7 +14,12 @@ This is a simple simulation of R2D2 using PyBullet.
 
 ## Running the Simulation
 
-1. Run `python3 sim-control.py` in your terminal.
+1. Run `python3 r2d2/sim-key-control.py` in your terminal.
+
+## Running the Evoluionary Algorithm training:
+
+1. Run `export PYTHONPATH=$(pwd)` in your terminal.
+2. Run `python3 r2d2/evolutionary_algorithm/main.py`
 
 ## How it Works
 
