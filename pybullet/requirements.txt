@@ -1,4 +1,4 @@
 pybullet
-pybullet_data
 pandas
 numpy
+matplotlib
