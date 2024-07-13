@@ -1,7 +1,7 @@
 from r2d2.evolutionary_algorithm.training import initialize_population, evolve_population
 from r2d2.evolutionary_algorithm.objective import objective_function
 import pybullet as p
-import pybullet_data
+import pybullet_data # type: ignore
 
 from r2d2.analysis.fitness_plot import plot_fitness_evolution
 from r2d2.analysis.parameter_analysis import analyze_parameters
@@ -17,8 +17,8 @@ num_joints = p.getNumJoints(robot_id)
 p.resetSimulation()
 
 # Main script
-population_size = 20
-num_generations = 8
+population_size = 4
+num_generations = 3
 num_parameters = num_joints  # Dynamically set number of parameters based on the robot's joints
 
 # Initialize population and run evolutionary algorithm
