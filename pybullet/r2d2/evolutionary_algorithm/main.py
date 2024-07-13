@@ -20,6 +20,9 @@ import pybullet_data # type: ignore
 from r2d2.analysis.fitness_plot import plot_fitness_evolution
 from r2d2.analysis.parameter_analysis import analyze_parameters
 from r2d2.analysis.final_performance import visualize_best_solution
+import os
+import re
+import numpy as np
 
 # Connect to PyBullet physics server
 p.connect(p.GUI)  # Use p.DIRECT for no GUI
@@ -35,8 +38,26 @@ population_size = 4
 num_generations = 3
 num_parameters = num_joints  # Dynamically set number of parameters based on the robot's joints
 
-# Initialize population and run evolutionary algorithm
-population = initialize_population(population_size, num_parameters)
+# Define the directory and regex pattern for the date
+directory = 'r2d2/evolutionary_algorithm/trained_models'
+date_pattern = r'best_fitnesses_\d{14}.npy'  # Adjust the pattern as needed
+
+# Search for files that match the regex pattern
+matching_files = [f for f in os.listdir(directory) if re.match(date_pattern, f)]
+
+# Optionally, sort the files by date or other criteria
+# For simplicity, let's assume you want the first matching file
+if matching_files:
+    selected_file = matching_files[0]  # or use sorting logic to select a specific file
+    population_file_path = os.path.join(directory, selected_file)
+    population = np.load(population_file_path, allow_pickle=True)
+    print("Found matching file:", selected_file, "\nLoading population from file.")
+else:
+    # Handle the case where no matching file is found
+    print("No matching file found. Initializing a new population.")
+    # population = initialize_population(population_size, num_parameters)  # Assuming this function exists
+
+# Continue with the evolutionary algorithm
 final_population, best_fitnesses, avg_fitnesses, worst_fitnesses, population_history = evolve_population(population, num_generations, objective_function)
 
 # Disconnect from the physics server
