@@ -2,6 +2,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def plot_fitness_evolution(best_fitnesses, avg_fitnesses, worst_fitnesses):
+    """
+    Plots the evolution of fitness over generations.
+
+    Args:
+        best_fitnesses (list): List of best fitness values for each generation.
+        avg_fitnesses (list): List of average fitness values for each generation.
+        worst_fitnesses (list): List of worst fitness values for each generation.
+
+    Returns:
+        None
+    """
     generations = np.arange(len(best_fitnesses))
     
     plt.figure(figsize=(10, 6))
@@ -14,7 +25,3 @@ def plot_fitness_evolution(best_fitnesses, avg_fitnesses, worst_fitnesses):
     plt.legend()
     plt.grid(True)
     plt.show()
-
-# Example usage:
-# best_fitnesses, avg_fitnesses, worst_fitnesses = [list_of_best_fitnesses], [list_of_avg_fitnesses], [list_of_worst_fitnesses]
-# plot_fitness_evolution(best_fitnesses, avg_fitnesses, worst_fitnesses)

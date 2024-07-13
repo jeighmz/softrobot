@@ -2,6 +2,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def analyze_parameters(population_history):
+    """
+    Analyzes the evolution of parameters in a population history.
+
+    Args:
+        population_history (list): A list of generations, where each generation is a list of candidates.
+
+    Returns:
+        None
+    """
     num_generations = len(population_history)
     num_parameters = len(population_history[0][0])
 
@@ -9,8 +18,10 @@ def analyze_parameters(population_history):
     best_parameters = np.zeros((num_generations, num_parameters))
 
     for gen_idx, generation in enumerate(population_history):
+        parameters_list = [candidate['parameters'] for candidate in generation]
+        
         best_candidate = max(generation, key=lambda candidate: candidate['fitness'])
-        avg_parameters[gen_idx, :] = np.mean([candidate['parameters'] for candidate in generation], axis=0)
+        avg_parameters[gen_idx, :] = np.mean(parameters_list, axis=0)
         best_parameters[gen_idx, :] = best_candidate['parameters']
 
     for param_idx in range(num_parameters):
@@ -23,10 +34,3 @@ def analyze_parameters(population_history):
         plt.legend()
         plt.grid(True)
         plt.show()
-
-# Example usage:
-# population_history = [
-#     [{'parameters': np.array([...]), 'fitness': ...}, ...],
-#     ...
-# ]
-# analyze_parameters(population_history)

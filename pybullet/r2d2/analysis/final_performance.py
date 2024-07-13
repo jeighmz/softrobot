@@ -3,6 +3,17 @@ import pybullet_data
 import numpy as np
 
 def visualize_best_solution(best_parameters):
+    """
+    Visualizes the best solution by connecting to the physics server, resetting the simulation,
+    loading the plane and robot, applying the best parameters to the robot joints, running the
+    simulation for a certain number of steps, and then disconnecting from the physics server.
+
+    Args:
+        best_parameters (list): A list of parameters representing the desired positions of the robot joints.
+
+    Returns:
+        None
+    """
     # Connect to the physics server
     if p.getConnectionInfo()['isConnected'] == 0:
         p.connect(p.GUI)
