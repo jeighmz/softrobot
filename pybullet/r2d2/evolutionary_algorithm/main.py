@@ -1,3 +1,17 @@
+"""
+This script demonstrates an evolutionary algorithm for optimizing the parameters of a robot using PyBullet.
+
+The script performs the following steps:
+1. Connects to the PyBullet physics server.
+2. Loads the R2D2 robot and counts its joints.
+3. Initializes the population of candidate solutions.
+4. Evolves the population using an evolutionary algorithm.
+5. Disconnects from the physics server.
+6. Performs post-training analysis, including plotting fitness evolution, analyzing parameters, and visualizing the best solution.
+
+Note: This script assumes that the necessary modules and packages are installed, including pybullet, pybullet_data, and the custom modules from the r2d2 package.
+"""
+
 from r2d2.evolutionary_algorithm.training import initialize_population, evolve_population
 from r2d2.evolutionary_algorithm.objective import objective_function
 import pybullet as p

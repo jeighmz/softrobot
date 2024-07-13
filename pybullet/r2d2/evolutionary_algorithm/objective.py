@@ -6,9 +6,17 @@ import json
 import os
 import datetime
 
-
 def save_training_data(data, filename):
-    """Save the training data to a file."""
+    """
+    Save the training data to a file.
+
+    Args:
+        data (dict): The training data to be saved.
+        filename (str): The name of the file to save the data to.
+
+    Returns:
+        None
+    """
     directory = os.path.dirname(filename)
     
     # Check if the directory exists, and create it if it doesn't
@@ -24,6 +32,15 @@ def save_training_data(data, filename):
         json.dump(data, f)
 
 def objective_function(robot_parameters):
+    """
+    Evaluates the performance of a robot with given parameters in a PyBullet simulation.
+
+    Args:
+        robot_parameters (list): A list of parameters that define the robot's behavior.
+
+    Returns:
+        float: The negative distance between the robot and a target position in the simulation.
+    """
     # Connect to the physics server
     if p.getConnectionInfo()['isConnected'] == 0:
         p.connect(p.GUI)  # Use p.DIRECT for no GUI
@@ -76,6 +93,4 @@ def objective_function(robot_parameters):
         else:
             raise  # Re-raise the exception if it's not the specific error we're handling
    
-    
-    
     return -distance_to_target  # The negative distance (we want to minimize distance)
