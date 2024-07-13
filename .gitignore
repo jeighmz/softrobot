@@ -1,2 +1,4 @@
 /pybullet/bullet3
 /pybullet/pybullet-venv
+/pybullet/r2d2/analysis/__pycache__
+/pybullet/r2d2/evolutionary_algorithm/__pycache__
