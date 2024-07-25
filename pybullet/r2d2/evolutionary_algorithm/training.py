@@ -55,26 +55,33 @@ def evolve_population(population, num_generations, objective_function, mutation_
         # Logging the details of each generation
         print(f"Generation {generation + 1}: Best fitness = {best_fitnesses[-1]}")
 
-
-    final_population_path = f'r2d2/evolutionary_algorithm/trained_models/final_population_{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}.npy'
-    directory = os.path.dirname(final_population_path)
-
-    # Check if the directory exists, and create it if it doesn't
+    # save population history
+    final_population_history_path = f'r2d2/evolutionary_algorithm/trained_models/final_population_history_{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}.npy'
+    directory = os.path.dirname(final_population_history_path)
     if not os.path.exists(directory):
         os.makedirs(directory)
+    np.save(final_population_history_path, np.array(generation_info))
 
-    # Now that the directory surely exists, save the final population
-    np.save(final_population_path, population)  # This should no longer raise an error
-
+    # Save the final population for future training sessions
+    final_population_path = f'r2d2/evolutionary_algorithm/trained_models/final_population_{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}.npy'
+    directory = os.path.dirname(final_population_path)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    np.save(final_population_path, population)  # Save the final population
+    
     # Optional: Save fitness history
-    np.save(f"r2d2/evolutionary_algorithm/trained_models/best_fitnesses_{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}.npy", np.array(best_fitnesses))
+    best_fitness_index = np.argmax(best_fitnesses)
+    best_generation_info = population_history[best_fitness_index]
+    np.save(f"r2d2/evolutionary_algorithm/trained_models/best_generation_info_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.npy", np.array(best_generation_info))
+    
     np.save(f"r2d2/evolutionary_algorithm/trained_models/avg_fitnesses_{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}.npy", np.array(avg_fitnesses))
     np.save(f"r2d2/evolutionary_algorithm/trained_models/worst_fitnesses_{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}.npy", np.array(worst_fitnesses))
     print('Final population saved to:', final_population_path)
+    # print(shape(population_history)
 
     return population, best_fitnesses, avg_fitnesses, worst_fitnesses, population_history
 
-def select_candidates(population, fitnesses, num_selected=10):
+def select_candidates(population, fitnesses, num_selected=4):
     """
     Selects the top candidates from the population based on their fitness scores.
 

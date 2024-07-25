@@ -34,13 +34,13 @@ num_joints = p.getNumJoints(robot_id)
 p.resetSimulation()
 
 # Main script
-population_size = 4
-num_generations = 3
+population_size = 6
+num_generations = 10
 num_parameters = num_joints  # Dynamically set number of parameters based on the robot's joints
 
 # Define the directory and regex pattern for the date
 directory = 'r2d2/evolutionary_algorithm/trained_models'
-date_pattern = r'best_fitnesses_\d{14}.npy'  # Adjust the pattern as needed
+date_pattern = r'best_generation_info_\d{14}.npy'  # Adjust the pattern as needed
 
 # Search for files that match the regex pattern
 matching_files = [f for f in os.listdir(directory) if re.match(date_pattern, f)]
@@ -51,11 +51,13 @@ if matching_files:
     selected_file = matching_files[0]  # or use sorting logic to select a specific file
     population_file_path = os.path.join(directory, selected_file)
     population = np.load(population_file_path, allow_pickle=True)
+    parameters_list = [item['parameters'] for item in population]
+    population = np.array(parameters_list)
     print("Found matching file:", selected_file, "\nLoading population from file.")
 else:
     # Handle the case where no matching file is found
     print("No matching file found. Initializing a new population.")
-    # population = initialize_population(population_size, num_parameters)  # Assuming this function exists
+    population = initialize_population(population_size, num_parameters)  # Assuming this function exists
 
 # Continue with the evolutionary algorithm
 final_population, best_fitnesses, avg_fitnesses, worst_fitnesses, population_history = evolve_population(population, num_generations, objective_function)
